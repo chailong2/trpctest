@@ -1,0 +1,18 @@
+package com.jackie.trpc.service;
+
+import com.tencent.trpc.core.rpc.RpcContext;
+import com.tencent.trpc.core.rpc.anno.TRpcMethod;
+import com.tencent.trpc.core.rpc.anno.TRpcService;
+
+
+@TRpcService(name = "com.jackie.trpc.DataService")
+public interface DataServiceAPI {
+
+    /**
+     * @param context context
+     * @param request request
+     * @return {@link Mydata}
+     */
+    @TRpcMethod(name = "ProcessData")
+    Mydata processData(RpcContext context, ProcessDataRequest request);
+}

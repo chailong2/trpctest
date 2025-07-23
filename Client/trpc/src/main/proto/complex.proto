@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.jackie.trpc;
+
+option java_multiple_files = true;
+option java_package = "com.jackie.trpc.service";
+option java_outer_classname = "ComplexProto";
+
+message ComplexData {
+  string id = 1;
+  repeated string items = 2;            // List结构
+  map<string, int32> properties = 3;    // Map结构
+  repeated NestedItem nested_items = 4; // 嵌套结构
+  
+  message NestedItem {
+    string name = 1;
+    map<string, string> attrs = 2;      // 嵌套Map
+  }
+}
+
+service DataService {
+  rpc ProcessData (ComplexData) returns (ComplexData);
+}

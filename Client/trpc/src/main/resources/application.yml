@@ -1,0 +1,31 @@
+server:
+  port: 9001
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0  
+    timeout: 5000ms
+trpc:
+  server: 
+    app: TestApp 
+    server: TestServer 
+    local_ip: 127.0.0.1 
+    service: 
+      - name: equipment.DataService
+        impls:
+          - com.jackie.trpc.service.impl.DataServiceAPIImpl
+        ip: 127.0.0.1
+        port: 9002
+        network: tcp
+        protocol: trpc      # 通信协议，默认trpc
+        serialization: pb   # 序列化方式，默认pb
+  client: 
+    service:
+      - name: com.jackie.trpc.DataService
+        naming_url: ip://127.0.0.1:9004
+        interface: com.jackie.trpc.service.DataServiceAPI
+        network: tcp                      # 网络协议，如tcp或udp
+        protocol: trpc                    # 通信协议，默认trpc
+        serialization: pb                 # 序列化方式，默认pb
+  

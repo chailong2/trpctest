@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package proto.equipment.conveyor;
+
+option java_package = "com.jackie.trpc.service";
+option java_outer_classname = "EquipmentConveyorMessage";
+option java_multiple_files = true;
+
+message PbEssConveyor {
+  string code = 1;
+  map<int32, NodeState> node_state = 2;
+  string workState = 3; // 状态
+  string zone = 4; // 楼层
+
+  message NodeState {
+    int32 node_id = 1;
+    bool has_container = 2;
+    string container_code = 3;
+    int64 last_read_time = 4; // 上次读标识时间
+    int64 last_report_time = 5; // 上次上报时间
+    int64 last_leave_success_time = 6; // 上次离开成功时间
+    int64 last_has_container_time = 7; // 上次有容器时间
+    PbEssConveyorContainerAttribute container_attribute = 8; // 容器属性
+    string container_task = 9; // 容器执行中的任务
+    string group_code = 10; // 节点分组编码
+
+    message PbEssConveyorContainerAttribute {
+        int64 height = 1;
+        int64 length = 2;
+        int64 width = 3;
+        int64 weight = 4;
+        int64 material = 5;
+        string orientation = 6;
+        string sku_info = 7;
+        string abnormal_reason = 8;
+        string group_abnormal_reason = 9;
+        string qrcode = 10;
+        int64 abnormal_code = 11;
+    }
+  }
+
+    enum WorkState{
+        OFFLINE = 0; //离线
+        RUNNING = 1; // 运行
+        PAUSE = 2;   // 暂停
+    }
+}
+
+
+service DataService {
+  rpc ProcessData (PbEssConveyor) returns (PbEssConveyor);
+}
